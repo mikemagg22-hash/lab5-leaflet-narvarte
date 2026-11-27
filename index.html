@@ -54,9 +54,9 @@ var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-var cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  maxZoom: 20, subdomains: 'abcd',
-  attribution: '&copy; OpenStreetMap contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+  maxNativeZoom: 17, maxZoom: 19,
+  attribution: 'Datos: &copy; OpenStreetMap contributors, SRTM | Estilo: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
 });
 
 // Capa WMTS (servicio de teselas OGC WMTS de ArcGIS, en su forma REST)
@@ -229,7 +229,7 @@ marker.openPopup();
 
 var capasBase = {
   'OpenStreetMap': osm,
-  'CARTO Positron': cartoLight,
+  'OpenTopoMap': topo,
   'Esri World Imagery (WMTS)': esriWmts
 };
 var capasSuperpuestas = {
@@ -252,7 +252,8 @@ leyenda.onAdd = function () {
     cats.map(function (c) { return '<i style="background:' + getColor(c) + '"></i>' + c; }).join('<br>') +
     '<br><i class="sq" style="background:rgba(0,128,0,.25);border-color:red"></i>Envolvente de los datos' +
     '<br><i class="sq" style="background:#fff;border:2px dashed #ff7800"></i>Extensión (rectángulo)' +
-    '<br><i style="background:rgba(107,29,47,.1);border-color:#6b1d2f"></i>Radio de 200 m';
+    '<br><i style="background:rgba(107,29,47,.1);border-color:#6b1d2f"></i>Radio de 200 m' +
+    '<br><b>Capa de íconos:</b> <span style="color:#e4572e">&#9679;</span> Alimentos · <span style="color:#3a86ff">&#9679;</span> Otros';
   return div;
 };
 leyenda.addTo(map);
