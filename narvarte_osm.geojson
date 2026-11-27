@@ -1,0 +1,425 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1552999,
+     19.3966376
+    ]
+   },
+   "properties": {
+    "nombre": "SNEAKER CLEAN",
+    "tipo": "Lavandería",
+    "categoria": "Lavanderías",
+    "calle": "YACATAS",
+    "numero": "1320",
+    "cp": "",
+    "horario": "",
+    "osm_id": "14329327779",
+    "osm_url": "https://www.openstreetmap.org/node/14329327779"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1537201,
+     19.3975591
+    ]
+   },
+   "properties": {
+    "nombre": "Oxxo",
+    "tipo": "Tienda de conveniencia",
+    "categoria": "Tiendas de abarrotes",
+    "calle": "XOCHICALCO",
+    "numero": "113",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329336921",
+    "osm_url": "https://www.openstreetmap.org/node/14329336921"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1546481,
+     19.3970229
+    ]
+   },
+   "properties": {
+    "nombre": "SOCIO ANCA",
+    "tipo": "Venta de autos",
+    "categoria": "Otros servicios",
+    "calle": "DIAGONAL SAN ANTONIO",
+    "numero": "1418",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329343979",
+    "osm_url": "https://www.openstreetmap.org/node/14329343979"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1538323,
+     19.3974203
+    ]
+   },
+   "properties": {
+    "nombre": "SANTI",
+    "tipo": "Tienda de conveniencia",
+    "categoria": "Tiendas de abarrotes",
+    "calle": "DIAGONAL SAN ANTONIO",
+    "numero": "1436",
+    "cp": "03023",
+    "horario": "08:00-20:00",
+    "osm_id": "14329351288",
+    "osm_url": "https://www.openstreetmap.org/node/14329351288"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1537258,
+     19.3971596
+    ]
+   },
+   "properties": {
+    "nombre": "TIERRA GARAT",
+    "tipo": "Cafetería",
+    "categoria": "Alimentos y bebidas",
+    "calle": "XOCHICALCO",
+    "numero": "121",
+    "cp": "03023",
+    "horario": "07:00-22:00",
+    "osm_id": "14329353001",
+    "osm_url": "https://www.openstreetmap.org/node/14329353001"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1549612,
+     19.3967885
+    ]
+   },
+   "properties": {
+    "nombre": "Petco",
+    "tipo": "Tienda de mascotas",
+    "categoria": "Otros servicios",
+    "calle": "DIAGONAL SAN ANTONIO",
+    "numero": "1320",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329356605",
+    "osm_url": "https://www.openstreetmap.org/node/14329356605"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1548254,
+     19.3968433
+    ]
+   },
+   "properties": {
+    "nombre": "EL TORITO",
+    "tipo": "Carnicería",
+    "categoria": "Tiendas de abarrotes",
+    "calle": "Avenida Diagonal San Antonio",
+    "numero": "1410-A",
+    "cp": "03023",
+    "horario": "08:00-18:00",
+    "osm_id": "14329367339",
+    "osm_url": "https://www.openstreetmap.org/node/14329367339"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1539155,
+     19.3973597
+    ]
+   },
+   "properties": {
+    "nombre": "VERDULERIA",
+    "tipo": "Tienda de conveniencia",
+    "categoria": "Tiendas de abarrotes",
+    "calle": "DIAGONAL SAN ANTONIO",
+    "numero": "1435",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329372538",
+    "osm_url": "https://www.openstreetmap.org/node/14329372538"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1538057,
+     19.3959481
+    ]
+   },
+   "properties": {
+    "nombre": "Ferretería (sin nombre)",
+    "tipo": "Ferretería",
+    "categoria": "Otros servicios",
+    "calle": "Calle Xochicalco",
+    "numero": "",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329381701",
+    "osm_url": "https://www.openstreetmap.org/node/14329381701"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1539964,
+     19.3984216
+    ]
+   },
+   "properties": {
+    "nombre": "Tiendas 3B",
+    "tipo": "Tienda de conveniencia",
+    "categoria": "Tiendas de abarrotes",
+    "calle": "XOCHICALCO",
+    "numero": "1006",
+    "cp": "03023",
+    "horario": "08:00-22:00",
+    "osm_id": "14329416973",
+    "osm_url": "https://www.openstreetmap.org/node/14329416973"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1530377,
+     19.3984283
+    ]
+   },
+   "properties": {
+    "nombre": "EL FOGÓN Y LA LEÑA",
+    "tipo": "Restaurante",
+    "categoria": "Alimentos y bebidas",
+    "calle": "LA MORENA",
+    "numero": "1064",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329463690",
+    "osm_url": "https://www.openstreetmap.org/node/14329463690"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1543646,
+     19.3986012
+    ]
+   },
+   "properties": {
+    "nombre": "LAVA SMILING",
+    "tipo": "Lavandería",
+    "categoria": "Lavanderías",
+    "calle": "UXMAL",
+    "numero": "93",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329473924",
+    "osm_url": "https://www.openstreetmap.org/node/14329473924"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1549707,
+     19.3980981
+    ]
+   },
+   "properties": {
+    "nombre": "EMILIA CAFE & BISTRO",
+    "tipo": "Cafetería",
+    "categoria": "Alimentos y bebidas",
+    "calle": "CALLE YACATAS",
+    "numero": "98",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329473925",
+    "osm_url": "https://www.openstreetmap.org/node/14329473925"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1544,
+     19.3984593
+    ]
+   },
+   "properties": {
+    "nombre": "Oxxo",
+    "tipo": "Tienda de conveniencia",
+    "categoria": "Tiendas de abarrotes",
+    "calle": "UXMAL",
+    "numero": "93",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329617223",
+    "osm_url": "https://www.openstreetmap.org/node/14329617223"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1546636,
+     19.3981191
+    ]
+   },
+   "properties": {
+    "nombre": "CERRAJERIA AUTOMOTRIZ",
+    "tipo": "Cerrajería",
+    "categoria": "Otros servicios",
+    "calle": "LA MORENA",
+    "numero": "957",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329626927",
+    "osm_url": "https://www.openstreetmap.org/node/14329626927"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1546216,
+     19.3984604
+    ]
+   },
+   "properties": {
+    "nombre": "LINGUISTICA",
+    "tipo": "Escuela de idiomas",
+    "categoria": "Otros servicios",
+    "calle": "Calle La Morena",
+    "numero": "962",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329635433",
+    "osm_url": "https://www.openstreetmap.org/node/14329635433"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1537063,
+     19.3981113
+    ]
+   },
+   "properties": {
+    "nombre": "WAKE CUP KFÉ",
+    "tipo": "Cafetería",
+    "categoria": "Alimentos y bebidas",
+    "calle": "LA MORENA",
+    "numero": "1013",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329645926",
+    "osm_url": "https://www.openstreetmap.org/node/14329645926"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1549497,
+     19.3980519
+    ]
+   },
+   "properties": {
+    "nombre": "BALANCE SPA NARVARTE",
+    "tipo": "Spa / masajes",
+    "categoria": "Otros servicios",
+    "calle": "LA MORENA 953",
+    "numero": "",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329648258",
+    "osm_url": "https://www.openstreetmap.org/node/14329648258"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.1533911,
+     19.3984814
+    ]
+   },
+   "properties": {
+    "nombre": "TUSTA COCINA SELECTA",
+    "tipo": "Restaurante",
+    "categoria": "Alimentos y bebidas",
+    "calle": "LA MORENA",
+    "numero": "1054",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329654515",
+    "osm_url": "https://www.openstreetmap.org/node/14329654515"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -99.154255,
+     19.3982809
+    ]
+   },
+   "properties": {
+    "nombre": "HAMBURGUESAS AL CARBON",
+    "tipo": "Comida rápida",
+    "categoria": "Alimentos y bebidas",
+    "calle": "Calle Uxmal Y LA MORENA",
+    "numero": "",
+    "cp": "03023",
+    "horario": "",
+    "osm_id": "14329656005",
+    "osm_url": "https://www.openstreetmap.org/node/14329656005"
+   }
+  }
+ ]
+}

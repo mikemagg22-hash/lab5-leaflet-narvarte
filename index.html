@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 5 – Mapa básico en Leaflet · Col. Narvarte (Mikemágg)</title>
+
+<!-- Leaflet 1.9.4 -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Plugin Leaflet.heat (mapa de calor) -->
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<!-- Datos GeoJSON propios (20 puntos aportados a OpenStreetMap) -->
+<script src="narvarte_osm.js"></script>
+
+<style>
+  html, body { height: 100%; margin: 0; font-family: Arial, Helvetica, sans-serif; }
+  #header { position: absolute; top: 0; left: 0; right: 0; height: 56px; z-index: 1000;
+            background: #6b1d2f; color: #fff; padding: 6px 16px; box-sizing: border-box; }
+  #header h1 { margin: 0; font-size: 18px; }
+  #header p  { margin: 2px 0 0; font-size: 12px; opacity: .9; }
+  #map { position: absolute; top: 56px; bottom: 0; left: 0; right: 0; }
+  .legend, .info-box { background: #fff; padding: 8px 10px; border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0,0,0,.35); font-size: 12px; line-height: 18px; }
+  .legend h4 { margin: 0 0 4px; font-size: 13px; }
+  .legend i  { width: 12px; height: 12px; float: left; margin: 3px 6px 0 0; border-radius: 50%;
+               border: 1px solid #333; }
+  .legend .sq { border-radius: 0; }
+  .btn-sismos { background: #fff; border: 2px solid rgba(0,0,0,.2); border-radius: 4px;
+               padding: 5px 8px; cursor: pointer; font-size: 12px; font-weight: bold; }
+  .popup-title { font-weight: bold; font-size: 14px; color: #6b1d2f; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>Lab 5 · Mapa básico en Leaflet – Comercios aportados a OpenStreetMap, Col. Narvarte (CDMX)</h1>
+  <p>Web Mapping 2026 (MIIGAiK) · Miguel Ángel González García · Ing. Topográfica y Fotogramétrica, ESIA Ticomán – IPN</p>
+</div>
+<div id="map"></div>
+
+<script>
+// ===================================================================
+// 1. Crear el objeto mapa y centrarlo en la zona de estudio
+// ===================================================================
+var centro = [19.39771, -99.15425];          // centroide de los 20 puntos
+var map = L.map('map').setView(centro, 17);
+L.control.scale({ imperial: false }).addTo(map);
+
+// ===================================================================
+// 2. Capas base (tile layers)
+// ===================================================================
+var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+var cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  maxZoom: 20, subdomains: 'abcd',
+  attribution: '&copy; OpenStreetMap contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+});
+
+// Capa WMTS (servicio de teselas OGC WMTS de ArcGIS, en su forma REST)
+var esriWmts = L.tileLayer(
+  'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/WMTS/tile/1.0.0/World_Imagery/default/default028mm/{z}/{y}/{x}.jpg', {
+  maxZoom: 19,
+  attribution: 'Imágenes: Esri, Maxar, Earthstar Geographics (WMTS)'
+});
+
+// ===================================================================
+// 3. Capa GeoJSON con estilo por función (getColor por categoría)
+// ===================================================================
+function getColor(categoria) {
+  return categoria === 'Alimentos y bebidas'  ? '#e4572e' :  // rojo-naranja
+         categoria === 'Tiendas de abarrotes' ? '#2a9d8f' :  // verde azulado
+         categoria === 'Lavanderías'          ? '#6c5ce7' :  // morado
+         categoria === 'Otros servicios'      ? '#f2a541' :  // amarillo
+                                                '#95a5a6';   // gris (por defecto)
+}
+
+function popupComercio(p) {
+  var dir = [p.calle, p.numero].filter(Boolean).join(' ');
+  return '<div class="popup-title">' + p.nombre + '</div>' +
+         '<b>Tipo:</b> ' + p.tipo + '<br>' +
+         '<b>Categoría:</b> ' + p.categoria + '<br>' +
+         (dir ? '<b>Dirección:</b> ' + dir + '<br>' : '') +
+         (p.horario ? '<b>Horario:</b> ' + p.horario + '<br>' : '') +
+         '<a href="' + p.osm_url + '" target="_blank">Ver nodo en OpenStreetMap</a>';
+}
+
+var comercios = L.geoJSON(narvarteData, {
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+      radius: 8,
+      fillColor: getColor(feature.properties.categoria),
+      color: '#ffffff',
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.9
+    });
+  },
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(popupComercio(feature.properties));
+    layer.bindTooltip(feature.properties.nombre, { direction: 'top', offset: [0, -6] });
+  }
+}).addTo(map);
+
+// ===================================================================
+// 4. La misma capa GeoJSON pero con íconos personalizados (L.icon)
+// ===================================================================
+function svgPin(color) {
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="41" viewBox="0 0 25 41">' +
+            '<path d="M12.5 0C5.6 0 0 5.6 0 12.5 0 21.9 12.5 41 12.5 41S25 21.9 25 12.5C25 5.6 19.4 0 12.5 0z" fill="' + color + '" stroke="#333" stroke-width="1"/>' +
+            '<circle cx="12.5" cy="12.5" r="5" fill="#fff"/></svg>';
+  return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+}
+var iconoAlimentos = L.icon({ iconUrl: svgPin('#e4572e'), iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [0, -36] });
+var iconoOtros     = L.icon({ iconUrl: svgPin('#3a86ff'), iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [0, -36] });
+
+var comerciosIconos = L.geoJSON(narvarteData, {
+  pointToLayer: function (feature, latlng) {
+    var icono = feature.properties.categoria === 'Alimentos y bebidas' ? iconoAlimentos : iconoOtros;
+    return L.marker(latlng, { icon: icono });
+  },
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(popupComercio(feature.properties));
+  }
+});
+
+// ===================================================================
+// 5. Marcador, marcador circular y círculo
+// ===================================================================
+// Marcador (PNG por defecto de Leaflet) con popup abierto al cargar
+var marker = L.marker(centro)
+  .bindPopup('<b>¡Hola! Zona de estudio: Col. Narvarte</b><br>' +
+             'Aquí capturé 20 comercios en OpenStreetMap (usuario <i>Mikemágg</i>).<br>' +
+             'Haz clic en cualquier parte del mapa para ver sus coordenadas.');
+
+// Marcador circular (radio fijo en píxeles): comercio más al sur
+var circleMarker = L.circleMarker([19.3959481, -99.1538057], {
+  radius: 14, color: '#000', weight: 2, fillColor: '#ffd166', fillOpacity: 0.5, dashArray: '4'
+}).bindPopup('<b>CircleMarker</b><br>Radio fijo de 14 px.<br>Ferretería (sin nombre), calle Xochicalco.');
+
+// Círculo (radio en metros): área de influencia de 200 m
+var circle = L.circle(centro, {
+  radius: 200, color: '#6b1d2f', weight: 2, fillColor: '#6b1d2f', fillOpacity: 0.06
+}).bindPopup('<b>Circle</b><br>Área de influencia de 200 m alrededor del centro de la zona de estudio.');
+
+// ===================================================================
+// 6. Polilíneas: recorridos de levantamiento por las calles
+// ===================================================================
+var lineaMorena = L.polyline([
+  [19.3984283, -99.1530377],   // El Fogón y la Leña
+  [19.3984814, -99.1533911],   // Tusta Cocina Selecta
+  [19.3981113, -99.1537063],   // Wake Cup Kfé
+  [19.3982809, -99.1542550],   // Hamburguesas al Carbón
+  [19.3981191, -99.1546636],   // Cerrajería Automotriz
+  [19.3980519, -99.1549497]    // Balance Spa Narvarte
+], { color: 'red', weight: 6, opacity: 0.6 })
+  .bindPopup('<b>Polyline</b><br>Recorrido de levantamiento por la calle La Morena.');
+
+var lineaDiagonal = L.polyline([
+  [19.3974203, -99.1538323],   // Santi
+  [19.3970229, -99.1546481],   // Socio Anca
+  [19.3968433, -99.1548254],   // El Torito
+  [19.3967885, -99.1549612]    // Petco
+], { color: '#1d3557', weight: 6, opacity: 0.6, dashArray: '10,8' })
+  .bindPopup('<b>Polyline</b><br>Recorrido por la Av. Diagonal San Antonio.');
+
+// ===================================================================
+// 7. Polígono (envolvente convexa de los 20 puntos) y rectángulo (extensión)
+// ===================================================================
+var poligono = L.polygon([
+  [19.3966376, -99.1552999],
+  [19.3959481, -99.1538057],
+  [19.3984283, -99.1530377],
+  [19.3984814, -99.1533911],
+  [19.3986012, -99.1543646],
+  [19.3984604, -99.1546216],
+  [19.3980981, -99.1549707]
+], { color: 'red', fillColor: 'green', fillOpacity: 0.15, weight: 3 })
+  .bindPopup('<b>Polygon</b><br>Envolvente convexa de los 20 comercios capturados.');
+
+var rectangulo = L.rectangle([[19.3959481, -99.1552999], [19.3986012, -99.1530377]], {
+  color: '#ff7800', weight: 1, fill: false, dashArray: '6'
+}).bindPopup('<b>Rectangle</b><br>Extensión (bounding box) de los datos.');
+
+// ===================================================================
+// 8. Mapa de calor con Leaflet.heat
+// ===================================================================
+var heatData = narvarteData.features.map(function (f) {
+  return [f.geometry.coordinates[1], f.geometry.coordinates[0], 0.8];
+});
+var heat = L.heatLayer(heatData, { radius: 40, blur: 25, maxZoom: 17 });
+
+// ===================================================================
+// 9. Fuente de datos web externa (tabla "Web-based spatial data sources"):
+//    Earthquakes USGS – sismos M2.5+ de los últimos 30 días (GeoJSON en vivo)
+// ===================================================================
+var sismos = L.geoJSON(null, {
+  filter: function (f) {          // solo México y alrededores
+    var c = f.geometry.coordinates;
+    return c[0] > -120 && c[0] < -85 && c[1] > 12 && c[1] < 33;
+  },
+  pointToLayer: function (f, latlng) {
+    var m = f.properties.mag || 0;
+    return L.circleMarker(latlng, {
+      radius: 3 + m * 2,
+      fillColor: m >= 5 ? '#d00000' : m >= 4 ? '#f48c06' : '#ffba08',
+      color: '#333', weight: 1, fillOpacity: 0.75
+    });
+  },
+  onEachFeature: function (f, layer) {
+    var p = f.properties;
+    layer.bindPopup('<b>Sismo M' + (p.mag != null ? p.mag.toFixed(1) : '?') + '</b><br>' + p.place +
+                    '<br>' + new Date(p.time).toLocaleString('es-MX') +
+                    '<br><a href="' + p.url + '" target="_blank">Detalle en USGS</a>');
+  }
+});
+fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson')
+  .then(function (r) { return r.json(); })
+  .then(function (data) { sismos.addData(data); })
+  .catch(function (e) { console.warn('No se pudieron cargar los sismos USGS', e); });
+
+// ===================================================================
+// 10. Grupos de capas y control de capas
+// ===================================================================
+var grupoVectores = L.layerGroup([marker, circleMarker, circle, lineaMorena, lineaDiagonal, poligono, rectangulo]).addTo(map);
+marker.openPopup();
+
+var capasBase = {
+  'OpenStreetMap': osm,
+  'CARTO Positron': cartoLight,
+  'Esri World Imagery (WMTS)': esriWmts
+};
+var capasSuperpuestas = {
+  'Comercios OSM (estilo por categoría)': comercios,
+  'Comercios OSM (íconos L.icon)': comerciosIconos,
+  'Formas vectoriales (marker, círculos, líneas, polígono)': grupoVectores,
+  'Mapa de calor (Leaflet.heat)': heat,
+  'Sismos USGS M2.5+ últimos 30 días': sismos
+};
+L.control.layers(capasBase, capasSuperpuestas, { collapsed: false }).addTo(map);
+
+// ===================================================================
+// 11. Leyenda
+// ===================================================================
+var leyenda = L.control({ position: 'bottomright' });
+leyenda.onAdd = function () {
+  var div = L.DomUtil.create('div', 'legend');
+  var cats = ['Alimentos y bebidas', 'Tiendas de abarrotes', 'Lavanderías', 'Otros servicios'];
+  div.innerHTML = '<h4>Comercios por categoría</h4>' +
+    cats.map(function (c) { return '<i style="background:' + getColor(c) + '"></i>' + c; }).join('<br>') +
+    '<br><i class="sq" style="background:rgba(0,128,0,.25);border-color:red"></i>Envolvente de los datos' +
+    '<br><i class="sq" style="background:#fff;border:2px dashed #ff7800"></i>Extensión (rectángulo)' +
+    '<br><i style="background:rgba(107,29,47,.1);border-color:#6b1d2f"></i>Radio de 200 m';
+  return div;
+};
+leyenda.addTo(map);
+
+// Botón para ir a la vista de sismos (México) y regresar a Narvarte
+var botones = L.control({ position: 'topleft' });
+botones.onAdd = function () {
+  var div = L.DomUtil.create('div');
+  div.innerHTML = '<button class="btn-sismos" id="verSismos">Ver sismos en México</button><br>' +
+                  '<button class="btn-sismos" id="verNarvarte" style="margin-top:4px">Volver a Narvarte</button>';
+  L.DomEvent.disableClickPropagation(div);
+  return div;
+};
+botones.addTo(map);
+document.getElementById('verSismos').onclick = function () {
+  if (!map.hasLayer(sismos)) map.addLayer(sismos);
+  map.setView([20.5, -101.5], 5);
+};
+document.getElementById('verNarvarte').onclick = function () { map.setView(centro, 17); };
+
+// ===================================================================
+// 12. Evento de clic en el mapa: muestra latitud y longitud
+// ===================================================================
+var popup = L.popup();
+function onMapClick(e) {
+  var lat = e.latlng.lat.toFixed(6);
+  var lng = e.latlng.lng.toFixed(6);
+  popup.setLatLng(e.latlng)
+       .setContent('Hiciste clic en el mapa en:<br><b>Latitud:</b> ' + lat + '<br><b>Longitud:</b> ' + lng)
+       .openOn(map);
+}
+map.on('click', onMapClick);
+</script>
+</body>
+</html>
